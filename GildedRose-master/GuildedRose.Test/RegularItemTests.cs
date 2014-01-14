@@ -17,7 +17,7 @@ namespace GuildedRose.Test
       {
         Items = new List<Item>
         {
-          new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7}
+          new Item {Name = "Elixir of the Mongoose", SellIn = 5, Quality = 14}
         }
       };
     }
@@ -53,6 +53,32 @@ namespace GuildedRose.Test
         var actual = _app.Items.First().Quality;
 
         var expected = previousQuality - 1;
+        Assert.AreEqual(expected, actual);
+
+        previousQuality = actual;
+      }
+    }
+
+    [TestMethod]
+    public void QualityDecreasesBy2EachDayAfterSellInDay()
+    {
+      var initialQuality = _app.Items.First().Quality;
+      var sellInValue = _app.Items.First().SellIn;
+
+      for (var i = 1; i <= sellInValue; i++)
+      {
+        _app.UpdateQuality();
+      }
+
+      var previousQuality = _app.Items.First().Quality;
+
+      for (var i = 1; i < (initialQuality - sellInValue)/2; i++)
+      {
+        _app.UpdateQuality();
+
+        var actual = _app.Items.First().Quality;
+
+        var expected = previousQuality - 2;
         Assert.AreEqual(expected, actual);
 
         previousQuality = actual;

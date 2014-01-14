@@ -59,6 +59,7 @@
     <Compile Include="SulfurasTests.cs" />
     <Compile Include="RegularItemTests.cs" />
     <Compile Include="ConjuredItemsTests.cs" />
+    <Compile Include="BackStagePassTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\src\GildedRose.Console\GildedRose.Console.csproj">

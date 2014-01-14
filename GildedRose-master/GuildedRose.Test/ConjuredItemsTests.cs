@@ -17,7 +17,7 @@ namespace GuildedRose.Test
       {
         Items = new List<Item>
         {
-          new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
+          new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 20}
         }
       };
     }
@@ -53,6 +53,32 @@ namespace GuildedRose.Test
         var actual = _app.Items.First().Quality;
 
         var expected = previousQuality - 2;
+        Assert.AreEqual(expected, actual);
+
+        previousQuality = actual;
+      }
+    }
+
+    [TestMethod]
+    public void QualityDecreasesBy4EachDayAfterSellInDay()
+    {
+      var initialQuality = _app.Items.First().Quality;
+      var sellInValue = _app.Items.First().SellIn;
+
+      for (var i = 1; i <= sellInValue; i++)
+      {
+        _app.UpdateQuality();
+      }
+
+      var previousQuality = _app.Items.First().Quality;
+
+      while (previousQuality > 0)
+      {
+        _app.UpdateQuality();
+
+        var actual = _app.Items.First().Quality;
+
+        var expected = previousQuality - 4;
         Assert.AreEqual(expected, actual);
 
         previousQuality = actual;
